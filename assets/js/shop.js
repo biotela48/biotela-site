@@ -13,10 +13,19 @@
   }
   function count(){return load().reduce(function(a,i){return a+i.qty},0)}
   function fab(){
-    var a=document.getElementById('bt-fab'),n=count();
+    var n=count(),onCart=!!document.getElementById('bt-cart');
+    var bar=document.querySelector('.new-navbar-container');
+    if(bar){
+      var h=document.getElementById('bt-hdr');
+      if(!h){h=document.createElement('a');h.id='bt-hdr';h.className='bt-hdr';h.href='/korzina';h.setAttribute('aria-label','Корзина');
+        var mb=bar.querySelector('.menu-button-2');bar.insertBefore(h,mb||null)}
+      h.innerHTML='<span class="ic">🛒</span><span class="lb">Корзина</span><i'+(n?'':' class="zero"')+'>'+n+'</i>';
+      return;
+    }
+    var a=document.getElementById('bt-fab');
     if(!a){a=document.createElement('a');a.id='bt-fab';a.className='bt-fab';a.href='/korzina';document.body.appendChild(a)}
     a.innerHTML='🛒 Корзина <i>'+n+'</i>';
-    a.style.display=(n>0&&!document.getElementById('bt-cart'))?'inline-flex':'none';
+    a.style.display=(n>0&&!onCart)?'inline-flex':'none';
   }
   function add(id,q){var c=load(),f=c.filter(function(i){return i.id===id})[0];if(f)f.qty=Math.min(50,f.qty+q);else c.push({id:id,qty:q});save(c)}
 

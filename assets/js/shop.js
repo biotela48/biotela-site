@@ -75,7 +75,7 @@
           fetch('/shop/create-order.php',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)})
             .then(function(r){return r.json()}).then(function(j){
               if(j.payLink){goal('go_to_payment');try{sessionStorage.setItem('bt_last',j.extId)}catch(x){}location.href=j.payLink}
-              else{err.textContent=j.error||'Ошибка';b.disabled=false;b.textContent='Оплатить '+rub(total)}})
+              else{err.textContent=(j.error||'Ошибка')+(j.detail?' ['+j.detail+']':'');b.disabled=false;b.textContent='Оплатить '+rub(total)}})
             .catch(function(){err.textContent='Нет связи с сервером. Попробуйте ещё раз.';b.disabled=false;b.textContent='Оплатить '+rub(total)});
         });
       }

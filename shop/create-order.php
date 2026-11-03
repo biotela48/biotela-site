@@ -83,4 +83,5 @@ if ($code === 200 && isset($j['order']['payLink'])) {
     bt_json(array('payLink' => $j['order']['payLink'], 'extId' => $extId, 'delivery' => $delivery));
 }
 $order['status'] = 'api_error'; bt_save_order($extId, $order);
-bt_json(array('error' => 'Не удалось создать заказ. Попробуйте ещё раз или позвоните: 8 800 350 46 42', 'ref' => $extId), 502);
+$detail = is_array($j) ? (isset($j['message']) ? $j['message'] : json_encode($j, JSON_UNESCAPED_UNICODE)) : ('HTTP ' . $code . ' ' . $cerr);
+bt_json(array('error' => 'Не удалось создать заказ. Попробуйте ещё раз или позвоните: 8 800 350 46 42', 'ref' => $extId, 'detail' => mb_substr($detail, 0, 300)), 502);

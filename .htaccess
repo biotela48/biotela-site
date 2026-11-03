@@ -7,9 +7,9 @@ ErrorDocument 404 /404.html
 RewriteEngine On
 
 # https и www — ВКЛЮЧИТЬ после запуска на боевом домене (убрать # в 3 строках ниже)
-RewriteCond %{HTTPS} !=on
-RewriteCond %{HTTP_HOST} ^(www\.)?biotela\.ru$ [NC]
-RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L,NE]
+#RewriteCond %{HTTPS} !=on
+#RewriteCond %{HTTP_HOST} ^(www\.)?biotela\.ru$ [NC]
+#RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L,NE]
 
 # старые ссылки-посредники -> страницы товаров
 RewriteRule ^products-links/(artrovit|carnitin|d-glukarat-kaltsiya|inulin|kollagen|magnehelat|q-10|taurin|triptofan1|vitamin-d3)/?$ /$1 [R=301,L]

@@ -19,7 +19,7 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) bt_json(array('error' => 'Ука
 if (empty($in['agree'])) bt_json(array('error' => 'Нужно согласие с офертой и политикой конфиденциальности'), 422);
 
 $cat = bt_catalog();
-$anyMark = false; $lines = array(); $total = 0; $allSku = true; $qtyAll = 0;
+$stockLines = array(); $anyMark = false; $lines = array(); $total = 0; $allSku = true; $qtyAll = 0;
 $cart = isset($in['items']) && is_array($in['items']) ? $in['items'] : array();
 if (!$cart || count($cart) > 30) bt_json(array('error' => 'Корзина пуста'), 422);
 foreach ($cart as $it) {
@@ -37,7 +37,7 @@ foreach ($cart as $it) {
     if ($v['sku']) $line['sku'] = $v['sku'];
     elseif ($v['ozon_id'] !== '') $line['extId'] = $v['ozon_id'];
     else $allSku = false;
-    $lines[] = $line;
+    $lines[] = $line; $stockLines[] = array('id' => $id, 'qty' => $q);
     $total += $v['price'] * $q; $qtyAll += $q;
 }
 $wantDelivery = !empty($in['delivery']);
@@ -68,7 +68,7 @@ $payload['requestSign'] = hash('sha256', $accessKey . $expires . $extId . $fisca
 
 $order = array('extId' => $extId, 'created' => date('c'), 'name' => $name, 'phone' => '+' . $phone, 'email' => $email,
     'comment' => mb_substr(trim(isset($in['comment']) ? $in['comment'] : ''), 0, 500),
-    'items' => $lines, 'total' => $total, 'delivery' => $delivery, 'status' => 'created');
+    'items' => $lines, 'stock_lines' => $stockLines, 'total' => $total, 'delivery' => $delivery, 'status' => 'created');
 bt_save_order($extId, $order);
 
 $ch = curl_init(isset($cfg['api_url']) ? $cfg['api_url'] : 'https://payapi.ozon.ru/v1/createOrder');

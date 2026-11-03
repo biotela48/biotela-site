@@ -1,5 +1,5 @@
 {
- "_comment": "Цены в рублях. sku — артикул из каталога Озон Банка. stock: null — без ограничения, число — остаток на сайте, 0 — «нет в наличии». mark: товар маркируется. ozon_id — ID товара в каталоге Озон Банка (для позиций без SKU).",
+ "_comment": "Цены в рублях. sku — артикул Озон Банка, ozon_id — ID товара (если нет SKU). stock — остаток на сайте (null — без ограничения, 0 — «нет в наличии»); продажи вычитаются автоматически, при ручном изменении остатков увеличивайте stock_rev. mark — товар маркируется.",
  "products": [
   {
    "slug": "vitamin-d3",
@@ -11,7 +11,7 @@
      "price": 400,
      "sku": 298115680,
      "mark": true,
-     "stock": null
+     "stock": 10
     },
     {
      "id": "d3-360",
@@ -19,7 +19,7 @@
      "price": 600,
      "sku": 775350226,
      "mark": true,
-     "stock": null
+     "stock": 10
     },
     {
      "id": "d3-1000",
@@ -27,7 +27,7 @@
      "price": 1200,
      "sku": 298121240,
      "mark": true,
-     "stock": null
+     "stock": 10
     }
    ]
   },
@@ -41,7 +41,7 @@
      "price": 400,
      "sku": 4496180058,
      "mark": true,
-     "stock": null
+     "stock": 10
     },
     {
      "id": "q10-60",
@@ -49,7 +49,7 @@
      "price": 700,
      "sku": 5395672144,
      "mark": true,
-     "stock": null
+     "stock": 10
     }
    ]
   },
@@ -63,7 +63,7 @@
      "price": 800,
      "sku": 148784935,
      "mark": true,
-     "stock": null
+     "stock": 10
     },
     {
      "id": "inulin-540",
@@ -71,7 +71,7 @@
      "price": 400,
      "sku": 283871834,
      "mark": true,
-     "stock": null
+     "stock": 10
     }
    ]
   },
@@ -85,7 +85,7 @@
      "price": 400,
      "sku": 1562313455,
      "mark": true,
-     "stock": null
+     "stock": 10
     },
     {
      "id": "taurin-120",
@@ -93,7 +93,7 @@
      "price": 700,
      "sku": 1562315180,
      "mark": true,
-     "stock": null
+     "stock": 10
     }
    ]
   },
@@ -107,7 +107,7 @@
      "price": 850,
      "sku": 156324918,
      "mark": true,
-     "stock": null
+     "stock": 10
     },
     {
      "id": "artrovit-360",
@@ -115,7 +115,7 @@
      "price": 1300,
      "sku": 283891769,
      "mark": true,
-     "stock": null
+     "stock": 10
     }
    ]
   },
@@ -129,7 +129,7 @@
      "price": 400,
      "sku": 1552554082,
      "mark": true,
-     "stock": 0
+     "stock": 10
     },
     {
      "id": "carnitin-120",
@@ -151,7 +151,7 @@
      "price": 1450,
      "sku": 3563987392,
      "mark": false,
-     "stock": null
+     "stock": 10
     }
    ]
   },
@@ -165,7 +165,7 @@
      "price": 500,
      "sku": null,
      "mark": false,
-     "stock": null,
+     "stock": 10,
      "ozon_id": "4603739825478"
     }
    ]
@@ -179,8 +179,8 @@
      "label": "120 капсул, курс на 1 месяц",
      "price": 500,
      "sku": 1934995711,
-     "mark": false,
-     "stock": null
+     "mark": true,
+     "stock": 10
     }
    ]
   },
@@ -194,7 +194,7 @@
      "price": 400,
      "sku": 1554085066,
      "mark": true,
-     "stock": null
+     "stock": 10
     },
     {
      "id": "triptofan-180",
@@ -202,9 +202,10 @@
      "price": 600,
      "sku": 1553900309,
      "mark": true,
-     "stock": null
+     "stock": 10
     }
    ]
   }
- ]
+ ],
+ "stock_rev": 1
 }

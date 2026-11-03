@@ -9,8 +9,26 @@ function bt_config() {
     }
     return $c;
 }
-function bt_catalog() {
+function bt_sold_file() { return bt_orders_dir() . '/sold.json'; }
+function bt_sold($rev) {
+    $f = bt_sold_file();
+    $d = is_file($f) ? json_decode(file_get_contents($f), true) : null;
+    return (is_array($d) && isset($d['rev']) && $d['rev'] == $rev && isset($d['sold'])) ? $d['sold'] : array();
+}
+// Каталог с учётом продаж: stock = остаток из catalog.json минус проданное с момента stock_rev
+function bt_catalog_raw() {
     $j = json_decode(file_get_contents(__DIR__ . '/catalog.json'), true);
+    $rev = isset($j['stock_rev']) ? $j['stock_rev'] : 1;
+    $sold = bt_sold($rev);
+    foreach ($j['products'] as &$p) foreach ($p['variants'] as &$v) {
+        if (isset($v['stock']) && $v['stock'] !== null) {
+            $v['stock'] = max(0, (int)$v['stock'] - (isset($sold[$v['id']]) ? (int)$sold[$v['id']] : 0));
+        }
+    }
+    return $j;
+}
+function bt_catalog() {
+    $j = bt_catalog_raw();
     $map = array();
     foreach ($j['products'] as $p) {
         foreach ($p['variants'] as $v) {

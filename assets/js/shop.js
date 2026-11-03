@@ -7,7 +7,7 @@
   function rub(n){return n.toLocaleString('ru-RU')+' ₽'}
   function getCat(cb){
     if(cat)return cb(cat);
-    fetch('/shop/catalog.json',{cache:'no-cache'}).then(function(r){return r.json()}).then(function(j){
+    fetch('/shop/catalog.php',{cache:'no-store'}).then(function(r){return r.json()}).then(function(j){
       var m={},p={};j.products.forEach(function(x){p[x.slug]=x;x.variants.forEach(function(v){m[v.id]={stock:(v.stock===undefined?null:v.stock),id:v.id,name:x.name+', '+v.label,label:v.label,price:v.price,sku:v.sku||v.ozon_id||null,slug:x.slug}})});
       cat={map:m,bySlug:p};cb(cat)}).catch(function(){});
   }

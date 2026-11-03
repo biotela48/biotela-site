@@ -8,7 +8,7 @@
   function getCat(cb){
     if(cat)return cb(cat);
     fetch('/shop/catalog.json',{cache:'no-cache'}).then(function(r){return r.json()}).then(function(j){
-      var m={},p={};j.products.forEach(function(x){p[x.slug]=x;x.variants.forEach(function(v){m[v.id]={id:v.id,name:x.name+', '+v.label,label:v.label,price:v.price,sku:v.sku,slug:x.slug}})});
+      var m={},p={};j.products.forEach(function(x){p[x.slug]=x;x.variants.forEach(function(v){m[v.id]={stock:(v.stock===undefined?null:v.stock),id:v.id,name:x.name+', '+v.label,label:v.label,price:v.price,sku:v.sku,slug:x.slug}})});
       cat={map:m,bySlug:p};cb(cat)}).catch(function(){});
   }
   function count(){return load().reduce(function(a,i){return a+i.qty},0)}
@@ -35,22 +35,22 @@
     if(!host)return;
     getCat(function(C){
       var p=C.bySlug[slug];if(!p)return;
-      var sel=p.variants[0].id,qty=1;
+      var sel=(p.variants.filter(function(x){return x.stock!==0})[0]||p.variants[0]).id,qty=1;
       var box=document.createElement('div');box.className='bt-buybox';
       function draw(){
         var v=C.map[sel];
         box.innerHTML='<div class="bt-bb-title">Купить на сайте</div><div class="bt-vars">'+p.variants.map(function(x){
-          return '<button type="button" class="bt-var'+(x.id===sel?' on':'')+'" data-id="'+x.id+'"><span>'+esc(x.label)+'</span><b>'+rub(x.price)+'</b></button>'}).join('')+'</div>'
+          return '<button type="button" class="bt-var'+(x.id===sel?' on':'')+'" data-id="'+x.id+'"><span>'+esc(x.label)+'</span><b>'+(x.stock===0?'нет в наличии':rub(x.price))+'</b></button>'}).join('')+'</div>'
           +'<div class="bt-row"><div class="bt-qty"><button type="button" data-d="-1" aria-label="Меньше">−</button><span>'+qty+'</span><button type="button" data-d="1" aria-label="Больше">+</button></div>'
-          +'<button type="button" class="bt-buy">В корзину · '+rub(v.price*qty)+'</button></div>'
+          +(v.stock===0?'<button type="button" class="bt-buy" disabled style="background:#b8c4d2;cursor:default">Нет в наличии</button>':'<button type="button" class="bt-buy">В корзину · '+rub(v.price*qty)+'</button>')+'</div>'
           +'<div class="bt-added">Добавлено. <a href="/korzina">Перейти в корзину</a></div>'
           +'<div class="bt-note">Оплата картой, СБП или Ozon Картой. Доставка Ozon. <a href="/dostavka-i-oplata">Подробнее</a></div>';
       }
       box.addEventListener('click',function(e){
         var t=e.target.closest('button');if(!t)return;
         if(t.classList.contains('bt-var')){sel=t.getAttribute('data-id');draw()}
-        else if(t.hasAttribute('data-d')){qty=Math.max(1,Math.min(20,qty+parseInt(t.getAttribute('data-d'))));draw()}
-        else if(t.classList.contains('bt-buy')){add(sel,qty);goal('add_to_cart');draw();box.querySelector('.bt-added').style.display='block'}
+        else if(t.hasAttribute('data-d')){qty=Math.max(1,Math.min(20,C.map[sel].stock>0?C.map[sel].stock:20,qty+parseInt(t.getAttribute('data-d'))));draw()}
+        else if(t.classList.contains('bt-buy')&&!t.disabled){add(sel,qty);goal('add_to_cart');draw();box.querySelector('.bt-added').style.display='block'}
       });
       draw();host.parentNode.insertBefore(box,host);
     });
@@ -61,7 +61,7 @@
     var root=document.getElementById('bt-cart');if(!root)return;
     getCat(function(C){
       function render(){
-        var c=load().filter(function(i){return C.map[i.id]});
+        var c=load().filter(function(i){return C.map[i.id]&&C.map[i.id].stock!==0});
         if(!c.length){root.innerHTML='<div class="bt-empty">Корзина пуста. <a href="/">Выбрать товары</a></div>';return}
         var total=0,allSku=true;
         var rows=c.map(function(i){var v=C.map[i.id];total+=v.price*i.qty;if(!v.sku)allSku=false;

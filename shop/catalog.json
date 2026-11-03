@@ -1,5 +1,5 @@
 {
- "_comment": "Цены в рублях. sku — артикул из каталога Озон Банка (нужен для доставки Ozon). Меняйте цены здесь.",
+ "_comment": "Цены в рублях. sku — артикул из каталога Озон Банка. stock: null — без ограничения, число — остаток на сайте, 0 — «нет в наличии». mark: товар маркируется.",
  "products": [
   {
    "slug": "vitamin-d3",
@@ -9,22 +9,25 @@
      "id": "d3-120",
      "label": "120 таблеток",
      "price": 400,
-     "sku": null,
-     "mark": true
+     "sku": 298115680,
+     "mark": true,
+     "stock": null
     },
     {
      "id": "d3-360",
      "label": "360 таблеток",
      "price": 600,
      "sku": 775350226,
-     "mark": true
+     "mark": true,
+     "stock": null
     },
     {
      "id": "d3-1000",
      "label": "1000 таблеток",
      "price": 1200,
      "sku": 298121240,
-     "mark": true
+     "mark": true,
+     "stock": null
     }
    ]
   },
@@ -36,15 +39,17 @@
      "id": "q10-30",
      "label": "30 капсул, курс на 1 месяц",
      "price": 400,
-     "sku": null,
-     "mark": true
+     "sku": 4496180058,
+     "mark": true,
+     "stock": null
     },
     {
      "id": "q10-60",
      "label": "60 капсул, курс на 2 месяца",
      "price": 700,
      "sku": 5395672144,
-     "mark": true
+     "mark": true,
+     "stock": null
     }
    ]
   },
@@ -57,14 +62,16 @@
      "label": "180 капсул, месячный курс",
      "price": 800,
      "sku": 148784935,
-     "mark": true
+     "mark": true,
+     "stock": null
     },
     {
      "id": "inulin-540",
      "label": "540 капсул, курс на 3 месяца",
      "price": 400,
-     "sku": null,
-     "mark": true
+     "sku": 283871834,
+     "mark": true,
+     "stock": null
     }
    ]
   },
@@ -77,14 +84,16 @@
      "label": "60 капсул, месячный курс",
      "price": 400,
      "sku": 1562313455,
-     "mark": true
+     "mark": true,
+     "stock": null
     },
     {
      "id": "taurin-120",
      "label": "120 капсул, курс на 2 месяца",
      "price": 700,
      "sku": 1562315180,
-     "mark": true
+     "mark": true,
+     "stock": null
     }
    ]
   },
@@ -96,15 +105,17 @@
      "id": "artrovit-120",
      "label": "120 капсул, месячный курс",
      "price": 850,
-     "sku": null,
-     "mark": true
+     "sku": 156324918,
+     "mark": true,
+     "stock": null
     },
     {
      "id": "artrovit-360",
      "label": "360 капсул, курс на 3 месяца",
      "price": 1300,
-     "sku": null,
-     "mark": true
+     "sku": 283891769,
+     "mark": true,
+     "stock": null
     }
    ]
   },
@@ -116,15 +127,17 @@
      "id": "carnitin-60",
      "label": "60 капсул, курс на 1 месяц",
      "price": 400,
-     "sku": null,
-     "mark": true
+     "sku": 1552554082,
+     "mark": true,
+     "stock": 0
     },
     {
      "id": "carnitin-120",
      "label": "120 капсул, курс на 2 месяца",
      "price": 600,
-     "sku": null,
-     "mark": true
+     "sku": 1552579274,
+     "mark": true,
+     "stock": 0
     }
    ]
   },
@@ -136,8 +149,9 @@
      "id": "glukarat-120",
      "label": "120 капсул, месячный курс",
      "price": 1450,
-     "sku": null,
-     "mark": false
+     "sku": 3563987392,
+     "mark": false,
+     "stock": null
     }
    ]
   },
@@ -150,7 +164,8 @@
      "label": "150 г, месячный курс",
      "price": 500,
      "sku": null,
-     "mark": false
+     "mark": false,
+     "stock": null
     }
    ]
   },
@@ -162,8 +177,9 @@
      "id": "magnehelat-120",
      "label": "120 капсул, курс на 1 месяц",
      "price": 500,
-     "sku": null,
-     "mark": true
+     "sku": 1934995711,
+     "mark": false,
+     "stock": null
     }
    ]
   },
@@ -175,15 +191,17 @@
      "id": "triptofan-90",
      "label": "90 капсул, курс на 1 месяц",
      "price": 400,
-     "sku": null,
-     "mark": true
+     "sku": 1554085066,
+     "mark": true,
+     "stock": null
     },
     {
      "id": "triptofan-180",
      "label": "180 капсул, курс на 2 месяца",
      "price": 600,
-     "sku": null,
-     "mark": true
+     "sku": 1553900309,
+     "mark": true,
+     "stock": null
     }
    ]
   }

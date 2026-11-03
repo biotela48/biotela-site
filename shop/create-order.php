@@ -27,6 +27,7 @@ foreach ($cart as $it) {
     $q  = isset($it['qty']) ? (int)$it['qty'] : 0;
     if (!isset($cat[$id]) || $q < 1 || $q > 50) bt_json(array('error' => 'Товар не найден, обновите корзину'), 422);
     $v = $cat[$id];
+    if ($v['stock'] !== null && $q > (int)$v['stock']) bt_json(array('error' => 'Товара «' . $v['name'] . '» нет в нужном количестве. Обновите корзину.'), 422);
     $line = array(
         'name' => $v['name'], 'extId' => $v['id'], 'type' => 'TYPE_PRODUCT',
         'quantity' => $q, 'price' => array('currencyCode' => '643', 'value' => (string)($v['price'] * 100)),

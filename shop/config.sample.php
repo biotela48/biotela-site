@@ -7,9 +7,8 @@ return array(
     'secret_key'          => 'ВСТАВЬТЕ_СЕКРЕТНЫЙ_КЛЮЧ',            // secretKey
     'notification_secret' => 'ВСТАВЬТЕ_КЛЮЧ_ДЛЯ_УВЕДОМЛЕНИЙ',       // notificationSecretKey
     'api_url'             => 'https://payapi.ozon.ru/v1/createOrder',
-    'vat'                 => 'VAT_NONE',            // ставка НДС: VAT_NONE, VAT_0, VAT_5, VAT_7, VAT_10, VAT_22 ...
-    'fiscalization_type'  => '',                    // '', 'FISCAL_TYPE_SINGLE' или 'FISCAL_TYPE_DOUBLE'
-    'need_mark'           => false,                 // true, если товары маркируются
+    'vat'                 => 'VAT_5',               // ставка НДС 5%
+    'fiscalization_type'  => '',                    // для заказов без маркируемых товаров ('' = по умолчанию магазина)
     'delivery_pay_mode'   => 'PAY_MODE_CUSTOMER',   // доставка за счёт покупателя
     'notify_email'        => 'biotela@inbox.ru',    // куда присылать письма о новых оплатах
     'site'                => 'https://www.biotela.ru',

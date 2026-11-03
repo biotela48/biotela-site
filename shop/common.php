@@ -16,7 +16,7 @@ function bt_catalog() {
         foreach ($p['variants'] as $v) {
             $map[$v['id']] = array(
                 'id' => $v['id'], 'name' => $p['name'] . ', ' . $v['label'],
-                'price' => (int)$v['price'], 'sku' => $v['sku'] ? (int)$v['sku'] : null,
+                'price' => (int)$v['price'], 'mark' => !empty($v['mark']), 'sku' => $v['sku'] ? (int)$v['sku'] : null,
             );
         }
     }

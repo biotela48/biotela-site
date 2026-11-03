@@ -19,7 +19,7 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) bt_json(array('error' => 'Ука
 if (empty($in['agree'])) bt_json(array('error' => 'Нужно согласие с офертой и политикой конфиденциальности'), 422);
 
 $cat = bt_catalog();
-$lines = array(); $total = 0; $allSku = true; $qtyAll = 0;
+$anyMark = false; $lines = array(); $total = 0; $allSku = true; $qtyAll = 0;
 $cart = isset($in['items']) && is_array($in['items']) ? $in['items'] : array();
 if (!$cart || count($cart) > 30) bt_json(array('error' => 'Корзина пуста'), 422);
 foreach ($cart as $it) {
@@ -32,7 +32,7 @@ foreach ($cart as $it) {
         'quantity' => $q, 'price' => array('currencyCode' => '643', 'value' => (string)($v['price'] * 100)),
         'vat' => isset($cfg['vat']) ? $cfg['vat'] : 'VAT_NONE',
     );
-    if (!empty($cfg['need_mark'])) $line['needMark'] = true;
+    if ($v['mark']) { $line['needMark'] = true; $anyMark = true; }
     if ($v['sku']) $line['sku'] = $v['sku']; else $allSku = false;
     $lines[] = $line;
     $total += $v['price'] * $q; $qtyAll += $q;
@@ -43,7 +43,8 @@ $delivery = $wantDelivery && $allSku;
 $accessKey = $cfg['access_key']; $secret = $cfg['secret_key'];
 $extId = 'BT-' . date('ymdHis') . '-' . bin2hex(random_bytes(2));
 $expires = gmdate('Y-m-d\TH:i:s', time() + 86400) . '.000Z';
-$fiscal = isset($cfg['fiscalization_type']) ? $cfg['fiscalization_type'] : '';
+// маркируемые товары: маркировку вносит продавец после отгрузки -> двойная фискализация
+$fiscal = $anyMark ? 'FISCAL_TYPE_DOUBLE' : (isset($cfg['fiscalization_type']) ? $cfg['fiscalization_type'] : '');
 $algo = 'PAY_ALGO_SMS';
 $amountVal = (string)($total * 100);
 $site = isset($cfg['site']) ? $cfg['site'] : 'https://www.biotela.ru';

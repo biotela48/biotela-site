@@ -6,7 +6,7 @@ if (empty($cfg['access_key']) || empty($cfg['secret_key'])) bt_json(array('error
 
 $in = json_decode(file_get_contents('php://input'), true);
 if (!is_array($in)) bt_json(array('error' => 'Некорректный запрос'), 400);
-if (!empty($in['website'])) bt_json(array('error' => 'spam'), 400); // honeypot
+if (!isset($in['elapsed']) || (int)$in['elapsed'] < 2500) bt_json(array('error' => 'Подождите пару секунд и нажмите «Оплатить» ещё раз'), 429); // защита от ботов
 
 $name  = trim(isset($in['name']) ? $in['name'] : '');
 $email = trim(isset($in['email']) ? $in['email'] : '');

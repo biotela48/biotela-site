@@ -47,6 +47,7 @@
     });
   }
 
+  var T0=Date.now();
   function cartPage(){
     var root=document.getElementById('bt-cart');if(!root)return;
     getCat(function(C){
@@ -63,14 +64,13 @@
           +'<input type="tel" name="phone" placeholder="Телефон +7" autocomplete="tel" required>'
           +'<input type="email" name="email" placeholder="Почта (на неё придёт чек)" autocomplete="email" required>'
           +'<textarea name="comment" rows="2" placeholder="Комментарий к заказу (необязательно)"></textarea>'
-          +'<input type="text" name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">'
-          +'<label class="ck"><input type="checkbox" name="agree"> <span>Я принимаю <a href="/oferta" target="_blank">публичную оферту</a> и <a href="/terms" target="_blank">политику конфиденциальности</a>, ознакомлен с <a href="/dostavka-i-oplata" target="_blank">условиями доставки, оплаты и возврата</a>. Товар является БАД, не лекарство.</span></label>'
+                    +'<label class="ck"><input type="checkbox" name="agree"> <span>Я принимаю <a href="/oferta" target="_blank">публичную оферту</a> и <a href="/terms" target="_blank">политику конфиденциальности</a>, ознакомлен с <a href="/dostavka-i-oplata" target="_blank">условиями доставки, оплаты и возврата</a>. Товар является БАД, не лекарство.</span></label>'
           +'<div class="bt-err" id="bt-err"></div><button type="submit" class="bt-buy" id="bt-pay" style="min-height:52px">Оплатить '+rub(total)+'</button></form>';
         var f=document.getElementById('bt-form');
         f.addEventListener('submit',function(e){
           e.preventDefault();var err=document.getElementById('bt-err'),b=document.getElementById('bt-pay');err.textContent='';
           var d=new FormData(f);
-          var body={items:load(),name:d.get('name'),phone:d.get('phone'),email:d.get('email'),comment:d.get('comment'),website:d.get('website'),agree:f.agree.checked,delivery:allSku};
+          var body={items:load(),name:d.get('name'),phone:d.get('phone'),email:d.get('email'),comment:d.get('comment'),elapsed:Date.now()-T0,agree:f.agree.checked,delivery:allSku};
           b.disabled=true;b.textContent='Создаём заказ…';goal('checkout_start');
           fetch('/shop/create-order.php',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)})
             .then(function(r){return r.json()}).then(function(j){

@@ -2,10 +2,12 @@
 require __DIR__ . '/common.php';
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') bt_json(array('error' => 'method'), 405);
 $cfg = bt_config();
+$rawCat = json_decode(file_get_contents(__DIR__ . '/catalog.json'), true);
 if (empty($cfg['access_key']) || empty($cfg['secret_key'])) bt_json(array('error' => 'Оплата ещё не подключена. Позвоните нам: 8 800 350 46 42'), 503);
 
 $in = json_decode(file_get_contents('php://input'), true);
 if (!is_array($in)) bt_json(array('error' => 'Некорректный запрос'), 400);
+if (empty($rawCat['enabled']) && empty($in['preview'])) bt_json(array('error' => 'Интернет-магазин скоро откроется. Товары можно купить на Ozon и Wildberries.'), 403);
 if (!isset($in['elapsed']) || (int)$in['elapsed'] < 2500) bt_json(array('error' => 'Подождите пару секунд и нажмите «Оплатить» ещё раз'), 429); // защита от ботов
 
 $name  = trim(isset($in['name']) ? $in['name'] : '');

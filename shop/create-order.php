@@ -34,7 +34,9 @@ foreach ($cart as $it) {
         'vat' => isset($cfg['vat']) ? $cfg['vat'] : 'VAT_NONE',
     );
     if ($v['mark']) { $line['needMark'] = true; $anyMark = true; }
-    if ($v['sku']) $line['sku'] = $v['sku']; else $allSku = false;
+    if ($v['sku']) $line['sku'] = $v['sku'];
+    elseif ($v['ozon_id'] !== '') $line['extId'] = $v['ozon_id'];
+    else $allSku = false;
     $lines[] = $line;
     $total += $v['price'] * $q; $qtyAll += $q;
 }

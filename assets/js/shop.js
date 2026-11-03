@@ -8,7 +8,7 @@
   function getCat(cb){
     if(cat)return cb(cat);
     fetch('/shop/catalog.json',{cache:'no-cache'}).then(function(r){return r.json()}).then(function(j){
-      var m={},p={};j.products.forEach(function(x){p[x.slug]=x;x.variants.forEach(function(v){m[v.id]={stock:(v.stock===undefined?null:v.stock),id:v.id,name:x.name+', '+v.label,label:v.label,price:v.price,sku:v.sku,slug:x.slug}})});
+      var m={},p={};j.products.forEach(function(x){p[x.slug]=x;x.variants.forEach(function(v){m[v.id]={stock:(v.stock===undefined?null:v.stock),id:v.id,name:x.name+', '+v.label,label:v.label,price:v.price,sku:v.sku||v.ozon_id||null,slug:x.slug}})});
       cat={map:m,bySlug:p};cb(cat)}).catch(function(){});
   }
   function count(){return load().reduce(function(a,i){return a+i.qty},0)}
@@ -73,7 +73,7 @@
           +'<input type="tel" name="phone" placeholder="Телефон +7" autocomplete="tel" required>'
           +'<input type="email" name="email" placeholder="Почта (на неё придёт чек)" autocomplete="email" required>'
           +'<textarea name="comment" rows="2" placeholder="Комментарий к заказу (необязательно)"></textarea>'
-                    +'<label class="ck"><input type="checkbox" name="agree"> <span>Я принимаю <a href="/oferta" target="_blank">публичную оферту</a> и <a href="/terms" target="_blank">политику конфиденциальности</a>, ознакомлен с <a href="/dostavka-i-oplata" target="_blank">условиями доставки, оплаты и возврата</a>. Товар является БАД, не лекарство.</span></label>'
+                    +'<label class="ck"><input type="checkbox" name="agree"> <span>Я принимаю <a href="/oferta" target="_blank">публичную оферту</a> и <a href="/terms" target="_blank">политику конфиденциальности</a>, ознакомлен с <a href="/dostavka-i-oplata" target="_blank">условиями доставки, оплаты и возврата</a>. Товары не являются лекарственными средствами.</span></label>'
           +'<div class="bt-err" id="bt-err"></div><button type="submit" class="bt-buy" id="bt-pay" style="min-height:52px">Оплатить '+rub(total)+'</button></form>';
         var f=document.getElementById('bt-form');
         f.addEventListener('submit',function(e){

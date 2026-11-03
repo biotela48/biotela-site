@@ -16,7 +16,7 @@ function bt_catalog() {
         foreach ($p['variants'] as $v) {
             $map[$v['id']] = array(
                 'id' => $v['id'], 'name' => $p['name'] . ', ' . $v['label'],
-                'price' => (int)$v['price'], 'mark' => !empty($v['mark']), 'stock' => array_key_exists('stock',$v) ? $v['stock'] : null, 'sku' => $v['sku'] ? (int)$v['sku'] : null,
+                'price' => (int)$v['price'], 'mark' => !empty($v['mark']), 'ozon_id' => isset($v['ozon_id']) ? (string)$v['ozon_id'] : '', 'stock' => array_key_exists('stock',$v) ? $v['stock'] : null, 'sku' => $v['sku'] ? (int)$v['sku'] : null,
             );
         }
     }

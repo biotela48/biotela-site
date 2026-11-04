@@ -1,7 +1,9 @@
 <?php
 require __DIR__ . '/common.php';
 $cfg = bt_config();
-$d = json_decode(file_get_contents('php://input'), true);
+$raw = file_get_contents('php://input');
+@file_put_contents(bt_orders_dir() . '/notify.log', date('c') . ' ' . $raw . "\n", FILE_APPEND);
+$d = json_decode($raw, true);
 if (!is_array($d)) { http_response_code(400); exit('bad'); }
 $tx = isset($d['transactionID']) && $d['transactionID'] !== null ? $d['transactionID'] : (isset($d['transactionUID']) ? $d['transactionUID'] : (isset($d['transactionUid']) ? $d['transactionUid'] : ''));
 $ext = isset($d['extOrderID']) ? $d['extOrderID'] : '';
@@ -38,7 +40,7 @@ if ($o) {
         if ($first) {
             $lines = '';
             foreach ($o['items'] as $i) $lines .= '- ' . $i['name'] . ' × ' . $i['quantity'] . "\n";
-            bt_notify_mail('Оплачен заказ ' . $ext . ' на ' . $o['total'] . ' ₽',
+            bt_notify_mail((!empty($d['testMode']) ? '[ТЕСТ] ' : '') . 'Оплачен заказ ' . $ext . ' на ' . $o['total'] . ' ₽',
                 "Заказ: $ext\nСумма: {$o['total']} ₽\nПокупатель: {$o['name']}, {$o['phone']}, {$o['email']}\nДоставка Ozon: " . ($o['delivery'] ? 'да' : 'нет') . "\n\n$lines\nКомментарий: {$o['comment']}\n");
         }
     } else { bt_save_order($ext, $o); }

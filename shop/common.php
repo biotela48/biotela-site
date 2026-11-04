@@ -64,6 +64,7 @@ function bt_notify_mail($subject, $body) {
     $c = bt_config();
     $to = isset($c['notify_email']) ? $c['notify_email'] : '';
     if (!$to) return;
-    $h = "From: shop@biotela.ru\r\nContent-Type: text/plain; charset=utf-8\r\n";
-    @mail($to, '=?UTF-8?B?' . base64_encode($subject) . '?=', $body, $h);
+    $h = "Content-Type: text/plain; charset=utf-8\r\n";
+    $ok = @mail($to, '=?UTF-8?B?' . base64_encode($subject) . '?=', $body, $h);
+    @file_put_contents(bt_orders_dir() . '/mail.log', date('c') . ' ' . ($ok ? 'OK ' : 'FAIL ') . $subject . "\n", FILE_APPEND);
 }
